@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ارزیابی راهبردی فرصت‌های نوظهور FMCG در ایران</title>
+  <style>
+    :root {
+      --primary: #0f2b5c;
+      --primary-light: #1d4ed8;
+      --primary-soft: #eff6ff;
+      --accent: #b45309;
+      --accent-light: #d97706;
+      --accent-soft: #fef3c7;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #334155;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+      --success: #15803d;
+      --success-bg: #dcfce7;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 20px rgba(15, 23, 42, 0.06);
+      --shadow-lg: 0 10px 30px rgba(15, 23, 42, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, 'Segoe UI', Tahoma, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.85;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* هدر با ناوبری واکنش‌گرا و قابلیت اسکرول خودکار */
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 4px;
+      background: #e2e8f0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-light), var(--accent-light));
+      width: 16.66%;
+      transition: width 0.35s ease;
+    }
+
+    .nav-tabs {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 10px 16px;
+      scrollbar-width: none; /* پنهان کردن اسکرول‌بار در فایرفاکس */
+      -ms-overflow-style: none; /* پنهان کردن در IE */
+      scroll-behavior: smooth;
+    }
+
+    .nav-tabs::-webkit-scrollbar {
+      display: none; /* پنهان کردن در کروم و سافاری */
+    }
+
+    .nav-tab-btn {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      border-radius: 10px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.25s ease;
+      flex-shrink: 0;
+    }
+
+    .nav-tab-btn:hover {
+      background: #f1f5f9;
+      color: var(--text-main);
+      border-color: #cbd5e1;
+    }
+
+    .nav-tab-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 3px 10px rgba(15, 43, 92, 0.2);
+    }
+
+    /* فضای اصلی محتوا */
+    main {
+      flex: 1;
+      max-width: 1200px;
+      margin: 20px auto 110px auto;
+      padding: 0 16px;
+      width: 100%;
+    }
+
+    .slide {
+      display: none;
+      animation: fadeIn 0.35s ease-out;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 24px;
+    }
+
+    .card-header-box {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 6px;
+      border-right: 5px solid var(--accent-light);
+      padding-right: 14px;
+    }
+
+    .card-subtitle {
+      font-size: 0.96rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* کارت‌های محصولات و عکس‌ها */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+      gap: 24px;
+      margin-top: 20px;
+    }
+
+    .product-box {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .product-box:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* محفظه تصویر با نمایش چندلایه و فال‌بک دقیق محصول */
+    .product-img-wrap {
+      width: 100%;
+      height: 230px;
+      position: relative;
+      background: #f1f5f9;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity 0.3s ease;
+      z-index: 2;
+    }
+
+    /* لایه تصویر تصویرسازی‌شده محصول (در صورتی که اینترنت یا فیلترینگ مانع لود عکس شود) */
+    .product-visual-backup {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg, #f8fafc, #edf2f7);
+      padding: 16px;
+      z-index: 1;
+    }
+
+    .product-box-body {
+      padding: 22px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .badge-wrap {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 6px;
+    }
+
+    .badge-food { background: var(--accent-soft); color: var(--accent); }
+    .badge-care { background: #fce7f3; color: #be185d; }
+    .badge-home { background: #e0f2fe; color: #0284c7; }
+    .badge-status { background: #f1f5f9; color: #475569; }
+
+    .product-name {
+      font-size: 1.22rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: var(--text-main);
+      line-height: 1.4;
+    }
+
+    .info-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 0.89rem;
+      color: var(--text-main);
+    }
+
+    .info-list li {
+      border-bottom: 1px dashed var(--border);
+      padding-bottom: 8px;
+    }
+
+    .info-list li:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .info-list span.lbl {
+      font-weight: 800;
+      color: var(--primary);
+      display: block;
+      font-size: 0.8rem;
+      margin-bottom: 2px;
+    }
+
+    .pro-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 14px;
+      font-size: 0.88rem;
+    }
+
+    .pro-box strong {
+      color: var(--primary);
+    }
+
+    .highlight-card {
+      background: var(--primary-soft);
+      border-right: 5px solid var(--primary-light);
+      padding: 18px 22px;
+      border-radius: 12px;
+      margin-top: 22px;
+      font-size: 0.93rem;
+      line-height: 1.9;
+    }
+
+    .alert-card {
+      background: var(--accent-soft);
+      border-right: 5px solid var(--accent);
+      padding: 18px 22px;
+      border-radius: 12px;
+      margin-top: 20px;
+      font-size: 0.93rem;
+    }
+
+    /* جدول مقایسه اقتصادی */
+    .table-container {
+      overflow-x: auto;
+      margin-top: 20px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: right;
+      font-size: 0.88rem;
+    }
+
+    th {
+      background: #f1f5f9;
+      color: var(--text-muted);
+      padding: 14px 16px;
+      font-weight: 800;
+      border-bottom: 2px solid var(--border);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 13px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    tr:hover td {
+      background: #f8fafc;
+    }
+
+    .tag-green { color: var(--success); font-weight: 800; background: var(--success-bg); padding: 2px 8px; border-radius: 4px; display: inline-block; font-size: 0.8rem; }
+    .tag-orange { color: var(--accent); font-weight: 800; background: var(--accent-soft); padding: 2px 8px; border-radius: 4px; display: inline-block; font-size: 0.8rem; }
+    .tag-blue { color: var(--primary-light); font-weight: 800; background: var(--primary-soft); padding: 2px 8px; border-radius: 4px; display: inline-block; font-size: 0.8rem; }
+
+    /* نوار پیمایش پایین صفحه - در انتهای اسکرول ظاهر می‌شود */
+    .footer-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-top: 1px solid var(--border);
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 -8px 25px rgba(0,0,0,0.08);
+      transform: translateY(115%);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+    }
+
+    .footer-nav.visible {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .btn {
+      padding: 11px 24px;
+      border-radius: 10px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-prev {
+      background: #f1f5f9;
+      color: var(--text-muted);
+    }
+
+    .btn-prev:hover {
+      background: #e2e8f0;
+      color: var(--text-main);
+    }
+
+    .btn-next {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(15, 43, 92, 0.25);
+    }
+
+    .btn-next:hover {
+      background: var(--primary-light);
+    }
+
+    .btn-loop {
+      background: var(--accent);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(180, 83, 9, 0.25);
+    }
+
+    .btn-loop:hover {
+      background: var(--accent-light);
+    }
+
+    .footer-status-pill {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    @media (max-width: 768px) {
+      .card { padding: 18px; border-radius: 16px; }
+      .card-title { font-size: 1.25rem; }
+      .product-grid { grid-template-columns: 1fr; }
+      .nav-tab-btn { font-size: 0.78rem; padding: 6px 12px; }
+      .footer-nav { padding: 10px 14px; }
+      .btn { padding: 9px 16px; font-size: 0.85rem; }
+      .footer-status-pill { font-size: 0.76rem; }
+      .product-img-wrap { height: 200px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- هدر تنها شامل تب‌های ناوبری متحرک و خط پیشرفت -->
+  <header>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <nav class="nav-tabs" id="navTabsContainer">
+      <button class="nav-tab-btn active" onclick="jumpToSlide(0)">۱. بررسی مثال موفق نودل و شاخص‌ها</button>
+      <button class="nav-tab-btn" onclick="jumpToSlide(1)">۲. غذاهای فرآوری‌شده و غلات فوری</button>
+      <button class="nav-tab-btn" onclick="jumpToSlide(2)">۳. مراقبت پوست و مو (درموکازمتیک)</button>
+      <button class="nav-tab-btn" onclick="jumpToSlide(3)">۴. منسوجات شست‌وشو و آشپزخانه</button>
+      <button class="nav-tab-btn" onclick="jumpToSlide(4)">۵. ماتریس مقایسه شاخص‌های اقتصادی</button>
+      <button class="nav-tab-btn" onclick="jumpToSlide(5)">۶. نقشه راه عملیاتی و چرخه ارزیابی</button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- بخش ۱: بررسی مثال موفق نودل -->
+    <section class="slide active" id="slide-0">
+      <div class="card">
+        <div class="card-header-box">
+          <h2 class="card-title">۱. بررسی مثال موفق نودل و شاخص‌های کشف کالاهای پرتقاضا</h2>
+          <p class="card-subtitle">تحلیل تجربه نودل به عنوان یک نمونه و الگوی ملموس از تبدیل یک کالای غایب به صنعتی فراگیر در ایران</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 26px; align-items: center;">
+          <div>
+            <div style="background: #eff6ff; border-right: 4px solid #2563eb; padding: 12px 16px; border-radius: 8px; margin-bottom: 14px; font-size: 0.92rem;">
+              <strong>نکته مهم:</strong> نودل در این بررسی صرفاً به عنوان یک «مثال و الگوی راهبردی» مطرح شده است تا سازوکارِ ورود محصولی که روزگاری در ایران ناشناخته بود ولی اکنون تقاضای میلیاردی دارد، کالبدشکافی شود.
+            </div>
+            <p style="margin-bottom: 14px; font-size: 0.95rem; text-align: justify;">
+              در اواخر دهه ۱۳۸۰ نودل فوری محصولی صرفاً وارداتی، لوکس و ناشناخته بود. اکثر ناظران معتقد بودند با توجه به ذائقه سنتی برنج‌خور ایرانیان، نودل هرگز فراگیر نخواهد شد. اما چند برند پیشگام داخلی (نظیر الیت و مهنام) با هدف قرار دادن ۳ عامل کلان، بازاری بی‌رقیب آفریدند:
+            </p>
+            <ul style="padding-right: 20px; font-size: 0.92rem; margin-bottom: 14px; display: flex; flex-direction: column; gap: 6px;">
+              <li><strong>فشردگی زمان و خستگی روزمره:</strong> نیاز شدید کارمندان، دانشجویان و خانواده‌ها به غذایی گرم در ۳ دقیقه بدون نیاز به ظرف و روغن.</li>
+              <li><strong>بومی‌سازی طعم عصاره‌ها:</strong> تغییر طعم‌های خاص آسیایی به چاشنی‌های عامه‌پسند ایرانی (عصاره مرغ، گوشت و پیاز جعفری).</li>
+              <li><strong>قیمت‌گذاری در دسترس (Affordable):</strong> اقتصادی بودن بهای تمام‌شده تولید بر پایه آرد گندم و دسترسی عموم مردم در سوپرمارکت‌ها.</li>
+            </ul>
+          </div>
+          <div class="product-img-wrap" style="border-radius: 14px; height: 260px;">
+            <div class="product-visual-backup">
+              <svg width="80" height="80" viewBox="0 0 100 100" fill="none">
+                <path d="M15 45 C15 75 30 85 50 85 C70 85 85 75 85 45 Z" fill="#e2e8f0" stroke="#0f2b5c" stroke-width="3"/>
+                <ellipse cx="50" cy="45" rx="35" ry="12" fill="#fed7aa" stroke="#0f2b5c" stroke-width="3"/>
+                <path d="M25 45 Q35 30 50 45 T75 45" stroke="#f59e0b" stroke-width="4" fill="none"/>
+                <path d="M30 48 Q45 35 60 48 T70 48" stroke="#d97706" stroke-width="3" fill="none"/>
+                <line x1="70" y1="20" x2="40" y2="50" stroke="#78350f" stroke-width="4" stroke-linecap="round"/>
+                <line x1="75" y1="20" x2="45" y2="50" stroke="#78350f" stroke-width="4" stroke-linecap="round"/>
+              </svg>
+              <span style="font-weight: 800; color: #0f2b5c; margin-top: 8px;">نودل فوری لیوانی (الگوی نفوذ به بازار)</span>
+            </div>
+            <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=800&q=80" alt="نودل فوری به عنوان الگوی بازار" onerror="handleImageFallback(this, 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Cup_Noodles_20201018.jpg/640px-Cup_Noodles_20201018.jpg')">
+          </div>
+        </div>
+
+        <div class="pro-box">
+          <strong>۴ شرط بنیادین برای کشف محصولات مستعدِ تکرارِ موفقیت نودل:</strong>
+          <ol style="padding-right: 22px; margin-top: 8px; line-height: 2;">
+            <li><strong>عدم عرضه رسمی یا قاچاق گران در ایران:</strong> محصولی که در بازار سوپرمارکتی غایب است ولی در آنلاین‌شاپ‌ها با قیمت‌های گزاف به فروش می‌رسد.</li>
+            <li><strong>تقاضای عینی شکل‌گرفته:</strong> جامعه مصرف‌کننده (به ویژه جوانان و خانواده‌ها) از طریق فیلم‌ها و شبکه‌های اجتماعی آن را می‌شناسند و مشتاق خرید آن هستند.</li>
+            <li><strong>تکیه بر زنجیره تأمین داخلی:</strong> ماده اولیه اصلی در کشاورزی، پتروشیمی یا نساجی ایران در دسترس و مصون از تحریم و نوسان دلار باشد.</li>
+            <li><strong>رفع زحمت و حل دغدغه‌ای ملموس:</strong> صرفه‌جویی محسوس در زمان، نظافت، بهداشت یا استهلاک وسایل خانه.</li>
+          </ol>
+        </div>
+
+        <div class="highlight-card">
+          💡 <strong>فرصت طلایی:</strong> ۸ محصولی که در ادامه معرفی می‌شوند، دقیقاً پاسخگوی این ۴ شرط بوده و مانند شرایط اولیه نودل در دهه ۸۰، آماده راه‌اندازی و فتح بازار هستند.
+        </div>
+      </div>
+    </section>
+
+    <!-- بخش ۲: غذاهای آماده نوین -->
+    <section class="slide" id="slide-1">
+      <div class="card">
+        <div class="card-header-box">
+          <h2 class="card-title">۲. دسته اول: غذاهای فرآوری‌شده فوری بر پایه غلات</h2>
+          <p class="card-subtitle">خوراک‌های تک‌نفره و سریع با اتکا به برنج و گندم داخلی و ذائقه نسل نو</p>
+        </div>
+
+        <div class="product-grid">
+          <!-- محصول ۱: دوکبوکی -->
+          <div class="product-box">
+            <div class="product-img-wrap">
+              <div class="product-visual-backup">
+                <svg width="75" height="75" viewBox="0 0 100 100" fill="none">
+                  <path d="M20 40 L30 85 L70 85 L80 40 Z" fill="#ef4444" stroke="#991b1b" stroke-width="2"/>
+                  <ellipse cx="50" cy="40" rx="30" ry="8" fill="#fca5a5" stroke="#991b1b" stroke-width="2"/>
+                  <rect x="35" y="42" width="10" height="25" rx="5" fill="#f8fafc" stroke="#dc2626" stroke-width="2" transform="rotate(-15 35 42)"/>
+                  <rect x="52" y="40" width="10" height="25" rx="5" fill="#f8fafc" stroke="#dc2626" stroke-width="2" transform="rotate(20 52 40)"/>
+                  <rect x="42" y="50" width="10" height="25" rx="5" fill="#f8fafc" stroke="#dc2626" stroke-width="2" transform="rotate(5 42 50)"/>
+                </svg>
+                <span style="font-weight: 800; color: #991b1b; margin-top: 8px;">کیک برنج فوری لیوانی (دوکبوکی)</span>
+              </div>
+              <img src="https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?auto=format&fit=crop&w=700&q=80" alt="کیک برنج فوری دوکبوکی" onerror="handleImageFallback(this, 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Tteokbokki.JPG/640px-Tteokbokki.JPG')">
+            </div>
+            <div class="product-box-body">
+              <div class="badge-wrap">
+                <span class="badge badge-food">غذای فوری لیوانی</span>
+                <span class="badge badge-status">فاقد تولید صنعتی در کشور</span>
+              </div>
+              <h3 class="product-name">کیک برنج فوری لیوانی (دوکبوکی / رابوکی)</h3>
+              <ul class="info-list">
+                <li>
+                  <span class="lbl">الگوی پرفروش جهانی:</span>
+                  برند کره‌ای Yopokki با صادرات به بیش از ۸۰ کشور دنیا و حضور در تمام سوپرمارکت‌های بین‌المللی.
+                </li>
+                <li>
+                  <span class="lbl">وضعیت بازار ایران و شکاف عرضه:</span>
+                  تقاضای بسیار بالا به واسطه نسل Z و سریال‌های کره‌ای؛ واردات قاچاق با قیمت نجومی ۷۰۰ تا ۹۵۰ هزار تومان برای یک لیوان ۱۲۰ گرمی.
+                </li>
+                <li>
+                  <span class="lbl">فناوری فرآوری و خط تولید:</span>
+                  خط بخارپز و اکستروژن برنج، برش استوانه‌ای، استریلیزاسیون حرارتی تحت خلأ جهت ایجاد ماندگاری یک‌ساله در دمای محیط، به همراه ساشه سس غلیظ.
+                </li>
+                <li>
+                  <span class="lbl">زنجیره تأمین مواد اولیه داخل:</span>
+                  استفاده مستقیم از برنج پرمحصول و نیم‌دانه شمال با نشاسته آمیلوز بالا جهت تأمین بافت جویدنی (Chewy)؛ رب گوجه و ادویه‌جات داخل.
+                </li>
+                <li>
+                  <span class="lbl">توجیه اقتصادی:</span>
+                  بهای تمام‌شده زیر ۱۲۰ هزار تومان، با قیمت فروش مصرف‌کننده ۲۵۰ الی ۳۵۰ هزار تومان و حاشیه سود ناخالص بالای ۶۰٪.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- محصول ۲: نان تورتیلا ماندگار -->
+          <div class="product-box">
+            <div class="product-img-wrap">
+              <div class="product-visual-backup">
+                <svg width="75" height="75" viewBox="0 0 100 100" fill="none">
+                  <ellipse cx="50" cy="65" rx="36" ry="14" fill="#fef08a" stroke="#ca8a04" stroke-width="2"/>
+                  <ellipse cx="50" cy="55" rx="36" ry="14" fill="#fef9c3" stroke="#ca8a04" stroke-width="2"/>
+                  <ellipse cx="50" cy="45" rx="36" ry="14" fill="#ffffff" stroke="#ca8a04" stroke-width="2"/>
+                  <circle cx="42" cy="43" r="2" fill="#a16207"/>
+                  <circle cx="58" cy="46" r="3" fill="#a16207"/>
+                  <circle cx="50" cy="41" r="2" fill="#a16207"/>
+                </svg>
+                <span style="font-weight: 800; color: #a16207; margin-top: 8px;">نان تورتیلا و رپ ماندگار</span>
+              </div>
+              <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=700&q=80" alt="نان تورتیلا و رپ ماندگار" onerror="handleImageFallback(this, 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Flour_tortillas_stack.jpg/640px-Flour_tortillas_stack.jpg')">
+            </div>
+            <div class="product-box-body">
+              <div class="badge-wrap">
+                <span class="badge badge-food">صنایع آرد و نان</span>
+                <span class="badge badge-status">تولید محدود کارگاهی</span>
+              </div>
+              <h3 class="product-name">نان تورتیلا و رپ ماندگار در دمای محیط</h3>
+              <ul class="info-list">
+                <li>
+                  <span class="lbl">الگوی پرفروش جهانی:</span>
+                  برند Mission Foods آمریکا؛ نان‌های مسطحی که بدون بیات شدن تا ۶ ماه در دمای محیط سوپرمارکت‌ها ماندگار هستند.
+                </li>
+                <li>
+                  <span class="lbl">شکاف عمیق بازار ایران:</span>
+                  نان‌های سنتی (لواش و تافتون) پس از ۲۴ ساعت بیات و دورریز می‌شوند؛ نان‌های صنعتی فعلی نیز انعطاف‌پذیری برای لقمه‌پیچی را سریع از دست می‌دهند.
+                </li>
+                <li>
+                  <span class="lbl">تکنولوژی موردنیاز:</span>
+                  پرس حرارتی پیوسته به همراه امولسیفایرهای مجاز غذایی و بسته‌بندی تحت اتمسفر اصلاح‌شده (تزریق گاز خنثی N2).
+                </li>
+                <li>
+                  <span class="lbl">کاربرد و مشتریان هدف:</span>
+                  مادران شاغل برای لقمه مدرسه فرزندان، ورزشکاران و علاقه‌مندان به ساندویچ‌های رژیمی و فست‌فودهای بیرون‌بر.
+                </li>
+                <li>
+                  <span class="lbl">مزیت لجستیک:</span>
+                  حذف کامل بحران مرجوعی نان به علت ماندگاری چندماهه؛ پخش مویرگی آسان در سراسر سوپرمارکت‌های کشور.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- محصول ۳: مک اند چیز ماکروویوی -->
+          <div class="product-box">
+            <div class="product-img-wrap">
+              <div class="product-visual-backup">
+                <svg width="75" height="75" viewBox="0 0 100 100" fill="none">
+                  <path d="M22 42 L32 82 L68 82 L78 42 Z" fill="#f59e0b" stroke="#b45309" stroke-width="2"/>
+                  <ellipse cx="50" cy="42" rx="28" ry="8" fill="#fde68a" stroke="#b45309" stroke-width="2"/>
+                  <path d="M38 42 C38 36 44 34 50 38" stroke="#d97706" stroke-width="5" stroke-linecap="round" fill="none"/>
+                  <path d="M48 44 C48 38 54 36 60 40" stroke="#d97706" stroke-width="5" stroke-linecap="round" fill="none"/>
+                  <path d="M42 48 C42 42 48 40 54 44" stroke="#d97706" stroke-width="5" stroke-linecap="round" fill="none"/>
+                </svg>
+                <span style="font-weight: 800; color: #b45309; margin-top: 8px;">مک‌اندچیز فوری لیوانی (پاستای پنیری)</span>
+              </div>
+              <img src="https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=700&q=80" alt="مک اند چیز فوری لیوانی" onerror="handleImageFallback(this, 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Macaroni_and_cheese.jpg/640px-Macaroni_and_cheese.jpg')">
+            </div>
+            <div class="product-box-body">
+              <div class="badge-wrap">
+                <span class="badge badge-food">پاستای فوری تک‌نفره</span>
+                <span class="badge badge-status">فاقد رقیب مستقیم در بازار</span>
+              </div>
+              <h3 class="product-name">مک‌اندچیز فوری لیوانی (پاستای ماکروویوی)</h3>
+              <ul class="info-list">
+                <li>
+                  <span class="lbl">الگوی پرفروش جهانی:</span>
+                  محصول پرفروش Kraft Easy Mac Cups با آماده‌سازی ۳ دقیقه‌ای در مایکروویو یا صرفاً با آب جوش.
+                </li>
+                <li>
+                  <span class="lbl">وضعیت بازار ایران:</span>
+                  پاستاهای موجود همگی نیازمند ۱۰ تا ۱۵ دقیقه جوشاندن روی گاز، آبکشی و شستن قابلمه هستند و برای محیط کار یا خوابگاه مناسب نیستند.
+                </li>
+                <li>
+                  <span class="lbl">فرمولاسیون و فناوری:</span>
+                  پاستای ژلاتینه‌شده با پخت فوری به همراه ساشه پودر پنیر پاششی (Spray-dried Cheese Powder) و نشاسته غلیظ‌کننده.
+                </li>
+                <li>
+                  <span class="lbl">جامعه هدف:</span>
+                  کارمندان شرکت‌ها در زمان ناهار، خوابگاه‌های دانشجویی، کودکان و نوجوانان به عنوان میان‌وعده عصرانه.
+                </li>
+                <li>
+                  <span class="lbl">مزیت تأمین:</span>
+                  صنعت تولید ماکارونی بسیار مجهز ایران و دسترسی به آرد سمولینا به همراه صنعت لبنیات قوی کشور جهت پودر پنیر.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- بخش ۳: مراقبت شخصی و پوست -->
+    <section class="slide" id="slide-2">
+      <div class="card">
+        <div class="card-header-box">
+          <h2 class="card-title">۳. دسته دوم: نوآوری‌های مراقبت شخصی و درموکازمتیک</h2>
+          <p class="card-subtitle">کالاهای تخصصی با مصرف مکرر ماهانه، وزن ناچیز برای پخش مویرگی و حاشیه سود بالای ۷۰٪</p>
+        </div>
+
+        <div class="product-grid">
+          <!-- محصول ۴: پچ آکنه -->
+          <div class="product-box">
+            <div class="product-img-wrap">
+              <div class="product-visual-backup">
+                <svg width="75" height="75" viewBox="0 0 100 100" fill="none">
+                  <rect x="20" y="15" width="60" height="70" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+                  <circle cx="38" cy="32" r="7" fill="#fef08a" stroke="#facc15" stroke-width="1.5"/>
+                  <circle cx="62" cy="32" r="7" fill="#fef08a" stroke="#facc15" stroke-width="1.5"/>
+                  <circle cx="38" cy="50" r="7" fill="#fef08a" stroke="#facc15" stroke-width="1.5"/>
+                  <circle cx="62" cy="50" r="7" fill="#fef08a" stroke="#facc15" stroke-width="1.5"/>
+                  <circle cx="38" cy="68" r="7" fill="#fef08a" stroke="#facc15" stroke-width="1.5"/>
+                  <circle cx="62" cy="68" r="7" fill="#fef08a" stroke="#facc15" stroke-width="1.5"/>
+                </svg>
+                <span style="font-weight: 800; color: #be185d; margin-top: 8px;">برگه پچ هیدروکلوئیدی آکنه (جوش)</span>
+              </div>
+              <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=700&q=80" alt="پچ هیدروکلوئید آکنه" onerror="handleImageFallback(this, 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Hydrocolloid_dressing.jpg/640px-Hydrocolloid_dressing.jpg')">
+            </div>
+            <div class="product-box-body">
+              <div class="badge-wrap">
+                <span class="badge badge-care">درموکازمتیک و داروخانه</span>
+                <span class="badge badge-status">واردات ۱۰۰٪ غیررسمی</span>
+              </div>
+              <h3 class="product-name">پچ‌های هیدروکلوئیدی موضعی آکنه (Pimple Patches)</h3>
+              <ul class="info-list">
+                <li>
+                  <span class="lbl">الگوی پرفروش جهانی:</span>
+                  برند Hero Cosmetics (Mighty Patch) و COSRX؛ جزو پرفروش‌ترین اقلام مراقبت پوست در آمازون با تیراژ میلیونی.
+                </li>
+                <li>
+                  <span class="lbl">مکانیسم بالینی:</span>
+                  پلیمر هیدروکلوئیدی ترشحات جوش را در کمتر از ۶ ساعت تخلیه کرده و با ایجاد سد فیزیکی، مانع دستکاری، آلودگی و تماس کرم‌پودر با زخم می‌شود.
+                </li>
+                <li>
+                  <span class="lbl">وضعیت بازار ایران:</span>
+                  تقاضای بالا میان نسل جوان و بانوان؛ فروش ورقه‌های ۲۴ عددی خارجی به قیمت نامتعارف ۴۰۰ تا ۷۰۰ هزار تومان در داروخانه‌ها و آنلاین‌شاپ‌ها.
+                </li>
+                <li>
+                  <span class="lbl">خط تولید:</span>
+                  رول‌های پلی‌اورتان و کربوکسی‌متیل سلولز (CMC)، دستگاه قالب‌زنی دوار (Rotary Die-Cut) و بسته‌بندی استریل.
+                </li>
+                <li>
+                  <span class="lbl">سودآوری:</span>
+                  بهای تمام‌شده هر بسته کمتر از ۵۰ هزار تومان در داخل است و با نرخ ۱۵۰ تا ۲۵۰ هزار تومان در بازار فروش عالی دارد (سود ناخالص بالای ۷۵٪).
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- محصول ۵: شامپو خشک -->
+          <div class="product-box">
+            <div class="product-img-wrap">
+              <div class="product-visual-backup">
+                <svg width="75" height="75" viewBox="0 0 100 100" fill="none">
+                  <rect x="36" y="32" width="28" height="55" rx="6" fill="#38bdf8" stroke="#0284c7" stroke-width="2"/>
+                  <rect x="44" y="24" width="12" height="8" fill="#e2e8f0" stroke="#0284c7" stroke-width="1.5"/>
+                  <rect x="48" y="20" width="4" height="4" fill="#64748b"/>
+                  <!-- اسپری پودری -->
+                  <path d="M52 18 C58 14 68 12 76 10" stroke="#0ea5e9" stroke-width="2" stroke-dasharray="2 2"/>
+                  <path d="M52 18 C60 18 70 20 78 22" stroke="#0ea5e9" stroke-width="2" stroke-dasharray="2 2"/>
+                </svg>
+                <span style="font-weight: 800; color: #0284c7; margin-top: 8px;">اسپری شامپوی خشک آئروسل</span>
+              </div>
+              <img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?auto=format&fit=crop&w=700&q=80" alt="شامپوی خشک آئروسل" onerror="handleImageFallback(this, 'https://images.unsplash.com/photo-1608248597359-009772c4ce0a?auto=format&fit=crop&w=700&q=80')">
+            </div>
+            <div class="product-box-body">
+              <div class="badge-wrap">
+                <span class="badge badge-care">مراقبت روزمره مو</span>
+                <span class="badge badge-status">وابسته به قاچاق خارجی</span>
+              </div>
+              <h3 class="product-name">شامپوی خشک آئروسل بر پایه نشاسته میکرونیزه</h3>
+              <ul class="info-list">
+                <li>
+                  <span class="lbl">الگوی پرفروش جهانی:</span>
+                  برند Batiste بریتانیا و Colab؛ جزو سبد خرید ثابت افراد شاغل در سراسر اروپا و آمریکا.
+                </li>
+                <li>
+                  <span class="lbl">محرک‌های کلان تقاضا در ایران:</span>
+                  بحران کم‌آبی، ترافیک و ساعات طولانی کار، سفرهای پیاپی، و نیاز به رفع چربی کف سر در ۳۰ ثانیه بدون نیاز به آب و سشوار.
+                </li>
+                <li>
+                  <span class="lbl">مشکل کالاهای موجود:</span>
+                  نمونه‌های تقلبی فراوان در بازار یا قیمت‌های سرسام‌آور ۶۰۰ تا ۸۰۰ هزار تومانی؛ نبود برند رسمی و باکیفیت تولید ایران در داروخانه‌ها.
+                </li>
+                <li>
+                  <span class="lbl">امکان‌سنجی تولید داخلی:</span>
+                  صنایع پرکنی اسپری در شهرک‌های صنعتی ایران کاملاً فعال است؛ فرمولاسیون بر پایه نشاسته اصلاح‌شده برنج و ذرت و پروپلنت تصفیه‌شده داخلی.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- بخش ۴: ملزومات شوینده و خانه -->
+    <section class="slide" id="slide-3">
+      <div class="card">
+        <div class="card-header-box">
+          <h2 class="card-title">۴. دسته سوم: ملزومات مدرن آشپزخانه و شست‌وشوی خانگی</h2>
+          <p class="card-subtitle">کالاهایی با خرید مکرر هفتگی/ماهانه برای نگهداری از تجهیزات گران‌قیمت منزل و حذف زحمت شست‌وشو</p>
+        </div>
+
+        <div class="product-grid">
+          <!-- محصول ۶: دستمال رنگ‌گیر -->
+          <div class="product-box">
+            <div class="product-img-wrap">
+              <div class="product-visual-backup">
+                <svg width="75" height="75" viewBox="0 0 100 100" fill="none">
+                  <rect x="22" y="24" width="56" height="52" rx="4" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/>
+                  <!-- بافت تار و پود -->
+                  <path d="M22 36 H78 M22 48 H78 M22 60 H78 M36 24 V76 M50 24 V76 M64 24 V76" stroke="#f1f5f9" stroke-width="1.5"/>
+                  <circle cx="36" cy="40" r="5" fill="#ef4444" opacity="0.8"/>
+                  <circle cx="60" cy="56" r="6" fill="#3b82f6" opacity="0.8"/>
+                  <circle cx="48" cy="48" r="4" fill="#10b981" opacity="0.8"/>
+                </svg>
+                <span style="font-weight: 800; color: #0284c7; margin-top: 8px;">دستمال جاذب رنگ ماشین لباسشویی</span>
+              </div>
+              <img src="https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?auto=format&fit=crop&w=700&q=80" alt="دستمال جذب رنگ لباس" onerror="handleImageFallback(this, 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Washing_machine_drum.jpg/640px-Washing_machine_drum.jpg')">
+            </div>
+            <div class="product-box-body">
+              <div class="badge-wrap">
+                <span class="badge badge-home">شست‌وشوی لباس</span>
+                <span class="badge badge-status">محصول ناشناخته اما پرسود</span>
+              </div>
+              <h3 class="product-name">دستمال پلیمری جاذب رنگ ماشین لباسشویی</h3>
+              <ul class="info-list">
+                <li>
+                  <span class="lbl">الگوی پرفروش جهانی:</span>
+                  برند Dr. Beckmann آلمان و Vanish Colour Protect؛ پرفروش‌ترین اکسسوری محافظت لباس در اروپا.
+                </li>
+                <li>
+                  <span class="lbl">عملکرد فنی و مزیت مصرف‌کننده:</span>
+                  منسوج بی‌بافت کاتیونی که رنگ‌های رهاشده در آب داغ را جذب و خنثی می‌کند؛ در نتیجه دیگر نیازی به تفکیک لباس‌های تیره و روشن نیست.
+                </li>
+                <li>
+                  <span class="lbl">ارزش اقتصادی برای خانوار:</span>
+                  صرفه‌جویی مستقیم در مصرف آب و برق با کاهش دفعات روشن کردن ماشین لباسشویی، و جلوگیری از رنگ گرفتن لباس‌های گران‌قیمت.
+                </li>
+                <li>
+                  <span class="lbl">زنجیره تولید داخلی:</span>
+                  صنعت منسوجات نبافته (Spunlace) در ایران بسیار قوی است؛ آغشته‌سازی با پلیمر کاتیونی، برش و بسته‌بندی با خطوط کم‌هزینه انجام می‌شود.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- محصول ۷: لاینر سرخ‌کن -->
+          <div class="product-box">
+            <div class="product-img-wrap">
+              <div class="product-visual-backup">
+                <svg width="75" height="75" viewBox="0 0 100 100" fill="none">
+                  <ellipse cx="50" cy="62" rx="36" ry="16" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+                  <path d="M14 62 L20 40 L80 40 L86 62 Z" fill="#fde68a" stroke="#d97706" stroke-width="2"/>
+                  <ellipse cx="50" cy="40" rx="30" ry="12" fill="#fffbeb" stroke="#d97706" stroke-width="2"/>
+                  <!-- کنگره‌های قالب -->
+                  <path d="M22 42 L24 60 M34 44 L35 62 M46 45 L47 63 M58 45 L57 63 M68 44 L66 62 M78 42 L76 60" stroke="#f59e0b" stroke-width="1.5"/>
+                </svg>
+                <span style="font-weight: 800; color: #b45309; margin-top: 8px;">لاینر قالبی نسوز سرخ‌کن بدون روغن</span>
+              </div>
+              <img src="https://images.unsplash.com/photo-1585515320310-259814833e62?auto=format&fit=crop&w=700&q=80" alt="کاغذ نسوز سرخ‌کن بدون روغن" onerror="handleImageFallback(this, 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Air_fryer_basket.jpg/640px-Air_fryer_basket.jpg')">
+            </div>
+            <div class="product-box-body">
+              <div class="badge-wrap">
+                <span class="badge badge-home">اکسسوری آشپزی مدرن</span>
+                <span class="badge badge-status">واردات فله‌ای بدون برند</span>
+              </div>
+              <h3 class="product-name">لاینر قالبی نسوز سرخ‌کن بدون روغن (Air Fryer Liners)</h3>
+              <ul class="info-list">
+                <li>
+                  <span class="lbl">الگوی پرفروش جهانی:</span>
+                  یکی از ۵ کالای مصرفی پرفروش آشپزخانه در سایت آمازون و والمارت با بسته‌های ۵۰ تا ۱۰۰ عددی.
+                </li>
+                <li>
+                  <span class="lbl">محرک انفجاری تقاضا در ایران:</span>
+                  فروش میلیونی سرخ‌کن‌های بدون روغن (ایرفرایر)؛ بزرگ‌ترین دغدغه خانواده‌ها، سوختن چربی کف سبد و از بین رفتن پوشش تفلون در اثر شست‌وشو است.
+                </li>
+                <li>
+                  <span class="lbl">وضعیت بازار:</span>
+                  واردات بسته‌های نایلونی بی‌کیفیت چینی با حاشیه سود بالا برای واسطه‌ها؛ عدم وجود یک برند رسمی و استاندارد ایرانی در هایپرمارکت‌ها.
+                </li>
+                <li>
+                  <span class="lbl">سرمایه‌گذاری اولیه:</span>
+                  دستگاه پرس هیدرولیک قالب گرم با هزینه راه‌اندازی بسیار پایین، استفاده از رول کاغذ مومی نسوز فودگرید، و بازگشت سرمایه کمتر از ۶ ماه.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- محصول ۸: کپسول ظرفشویی -->
+          <div class="product-box">
+            <div class="product-img-wrap">
+              <div class="product-visual-backup">
+                <svg width="75" height="75" viewBox="0 0 100 100" fill="none">
+                  <rect x="22" y="30" width="56" height="42" rx="10" fill="#f8fafc" stroke="#3b82f6" stroke-width="2"/>
+                  <!-- محفظه ژل آبی -->
+                  <path d="M24 40 C24 33 30 32 38 32 L48 32 L48 50 L24 50 Z" fill="#38bdf8"/>
+                  <!-- محفظه ژل سبز -->
+                  <path d="M52 32 L62 32 C70 32 76 33 76 40 L76 50 L52 50 Z" fill="#4ade80"/>
+                  <!-- قرص سفید پودری با پاوربال قرمز -->
+                  <rect x="24" y="52" width="52" height="18" rx="4" fill="#ffffff" stroke="#cbd5e1"/>
+                  <circle cx="50" cy="51" r="7" fill="#ef4444" stroke="#b91c1c" stroke-width="1.5"/>
+                </svg>
+                <span style="font-weight: 800; color: #1d4ed8; margin-top: 8px;">کپسول ژله‌ای چندمحفظه‌ای ظرفشویی</span>
+              </div>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Dishwasher_capsule.jpg/640px-Dishwasher_capsule.jpg" alt="کپسول ژله ای ماشین ظرفشویی" onerror="handleImageFallback(this, 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Dishwasher_detergent_tablet.jpg/640px-Dishwasher_detergent_tablet.jpg')">
+            </div>
+            <div class="product-box-body">
+              <div class="badge-wrap">
+                <span class="badge badge-home">شوینده تخصصی</span>
+                <span class="badge badge-status">شکاف شدید کیفیت داخلی</span>
+              </div>
+              <h3 class="product-name">کپسول ژله‌ای چندمحفظه‌ای ماشین ظرفشویی</h3>
+              <ul class="info-list">
+                <li>
+                  <span class="lbl">الگوی پرفروش جهانی:</span>
+                  کپسول‌های Fairy Platinum و Finish Quantum با تفکیک ژل چربی‌زدا و پودر آنزیمی حل‌کننده پروتئین.
+                </li>
+                <li>
+                  <span class="lbl">نارضایتی بازار از قرص‌های فعلی:</span>
+                  قرص‌های گچی ساخت داخل در آب‌های سخت رسوب کرده و روی ظروف لکه می‌اندازند؛ کپسول‌های خارجی قاچاق نیز به قیمت گزاف ۲ تا ۴ میلیون تومان فروخته می‌شوند.
+                </li>
+                <li>
+                  <span class="lbl">فناوری تولید:</span>
+                  تزریق غشای پلی‌وینیل الکل محلول در آب (PVA Film) جهت تفکیک مایع چربی‌زدای غیرآبی و پودر آنزیمی.
+                </li>
+                <li>
+                  <span class="lbl">چشم‌انداز سود:</span>
+                  پیچیدگی فنی بالا اما تقاضای پایدار و خریدهای تکرارشونده در تمام طول سال از سوی قشر متوسط و بالای جامعه.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- بخش ۵: ماتریس مقایسه اقتصادی -->
+    <section class="slide" id="slide-4">
+      <div class="card">
+        <div class="card-header-box">
+          <h2 class="card-title">۵. ماتریس ارزیابی شاخص‌های فنی، اقتصادی و سرمایه‌گذاری</h2>
+          <p class="card-subtitle">بررسی تطبیقی حجم سرمایه اولیه (CapEx)، حاشیه سود، دوره بازگشت سرمایه و اتکا به منابع بومی</p>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>نام محصول</th>
+                <th>دسته‌بندی</th>
+                <th>پیچیدگی فنی</th>
+                <th>سرمایه اولیه</th>
+                <th>حاشیه سود ناخالص</th>
+                <th>دوره بازگشت سرمایه</th>
+                <th>وابستگی به واردات</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>کیک برنج فوری (دوکبوکی)</strong></td>
+                <td>غذای فرآوری‌شده</td>
+                <td>متوسط</td>
+                <td>متوسط صنعتی</td>
+                <td><span class="tag-green">بسیار بالا (~۶۰٪)</span></td>
+                <td>کوتاه تا متوسط (۹ تا ۱۲ ماه)</td>
+                <td><span class="tag-green">بسیار پایین (برنج داخل)</span></td>
+              </tr>
+              <tr>
+                <td><strong>نان تورتیلا و رپ ماندگار</strong></td>
+                <td>صنایع غلات</td>
+                <td>متوسط</td>
+                <td>متوسط صنعتی</td>
+                <td><span class="tag-blue">بالا (~۴۵٪)</span></td>
+                <td>متوسط (۱۲ تا ۱۵ ماه)</td>
+                <td><span class="tag-green">بسیار پایین (آرد غلات)</span></td>
+              </tr>
+              <tr>
+                <td><strong>مک‌اندچیز فوری ماکروویوی</strong></td>
+                <td>پاستای تک‌نفره</td>
+                <td>پایین تا متوسط</td>
+                <td>پایین تا متوسط</td>
+                <td><span class="tag-blue">بالا (~۵۰٪)</span></td>
+                <td>کوتاه (۹ تا ۱۲ ماه)</td>
+                <td><span class="tag-green">بسیار پایین (گندم دوروم)</span></td>
+              </tr>
+              <tr>
+                <td><strong>پچ هیدروکلوئیدی آکنه</strong></td>
+                <td>درموکازمتیک</td>
+                <td>متوسط</td>
+                <td>پایین کارگاهی</td>
+                <td><span class="tag-green">فوق‌العاده (>۷۵٪)</span></td>
+                <td>بسیار کوتاه (زیر ۶ ماه)</td>
+                <td><span class="tag-orange">متوسط (پلیمر چسبی)</span></td>
+              </tr>
+              <tr>
+                <td><strong>شامپوی خشک آئروسل</strong></td>
+                <td>مراقبت مو</td>
+                <td>متوسط</td>
+                <td>متوسط (خط اسپری)</td>
+                <td><span class="tag-blue">بالا (~۵۵٪)</span></td>
+                <td>متوسط (۱۰ تا ۱۲ ماه)</td>
+                <td><span class="tag-green">پایین (نشاسته + قوطی داخل)</span></td>
+              </tr>
+              <tr>
+                <td><strong>دستمال جاذب رنگ لباس</strong></td>
+                <td>ملزومات شست‌وشو</td>
+                <td>پایین</td>
+                <td>بسیار پایین</td>
+                <td><span class="tag-green">بسیار بالا (~۶۵٪)</span></td>
+                <td>بسیار کوتاه (زیر ۶ ماه)</td>
+                <td><span class="tag-green">پایین (منسوج نبافته)</span></td>
+              </tr>
+              <tr>
+                <td><strong>لاینر قالبی ایرفرایر</strong></td>
+                <td>اکسسوری آشپزی</td>
+                <td>بسیار پایین</td>
+                <td>حداقلی (قالب و پرس)</td>
+                <td><span class="tag-blue">بالا (~۵۰٪)</span></td>
+                <td>بسیار کوتاه (۳ تا ۵ ماه)</td>
+                <td><span class="tag-orange">متوسط (کاغذ نسوز سیلیکونی)</span></td>
+              </tr>
+              <tr>
+                <td><strong>کپسول ژله‌ای ظرفشویی</strong></td>
+                <td>شوینده تخصصی</td>
+                <td>بالا</td>
+                <td>بالا (خط تزریق PVA)</td>
+                <td><span class="tag-green">بسیار بالا (~۶۰٪)</span></td>
+                <td>بلندمدت (۱۸ تا ۲۴ ماه)</td>
+                <td><span class="tag-orange">بالا (فیلم محلول PVA)</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="alert-card">
+          ⚠️ <strong>شاخص مصونیت ارزی:</strong> محصولاتی که زنجیره تأمین آنها بر پایه کشاورزی و پتروشیمی داخل است (کیک برنج، تورتیلا، مک‌اندچیز و دستمال رنگ‌گیر)، کمترین آسیب‌پذیری در برابر نوسانات دلار و بیشترین ثبات سودآوری را به همراه دارند.
+        </div>
+      </div>
+    </section>
+
+    <!-- بخش ۶: نقشه راه و استراتژی ورود -->
+    <section class="slide" id="slide-5">
+      <div class="card">
+        <div class="card-header-box">
+          <h2 class="card-title">۶. راهبرد عملیاتی ورود به بازار و چرخه ارزیابی مستمر (The Loop)</h2>
+          <p class="card-subtitle">نقشه راه گام‌به‌گام بر مبنای توان سرمایه‌گذاری و کانال‌های توزیع مویرگی</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+          <!-- مسیر ۱ -->
+          <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 14px; padding: 24px;">
+            <h3 style="color: var(--primary); font-size: 1.2rem; margin-bottom: 12px;">
+              🚀 فاز اول: ورود سریع با سرمایه اولیه پایین (Quick-Wins)
+            </h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px;"><strong>محصولات هدف:</strong> لاینر قالبی ایرفرایر + دستمال جاذب رنگ لباس + پچ هیدروکلوئید آکنه</p>
+            <ul style="font-size: 0.9rem; padding-right: 20px; line-height: 2;">
+              <li><strong>زمان راه‌اندازی:</strong> ۲ تا ۳ ماه با تجهیزات قالب‌زنی و بسته‌بندی کارگاهی.</li>
+              <li><strong>مدل توزیع:</strong> دیجی‌کالا، فروشگاه‌های اینترنتی، داروخانه‌های منتخب و فروشگاه‌های پلاسکو و زنجیره‌ای.</li>
+              <li><strong>هدف استراتژیک:</strong> بازگشت فوری سرمایه، تست بازار، و ایجاد نقدینگی بدون ریسک دریافت وام سنگین.</li>
+            </ul>
+          </div>
+
+          <!-- مسیر ۲ -->
+          <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 14px; padding: 24px;">
+            <h3 style="color: var(--accent); font-size: 1.2rem; margin-bottom: 12px;">
+              🏭 فاز دوم: مقیاس صنعتی با سهم بازار پایدار (Core FMCG)
+            </h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px;"><strong>محصولات هدف:</strong> کیک برنج فوری لیوانی (دوکبوکی) + تورتیلای سوپرمارکتی ماندگار</p>
+            <ul style="font-size: 0.9rem; padding-right: 20px; line-height: 2;">
+              <li><strong>زمان راه‌اندازی:</strong> ۶ تا ۹ ماه با خطوط پیوسته اکستروژن و بسته‌بندی اتمسفر اصلاح‌شده.</li>
+              <li><strong>مدل توزیع:</strong> قرارداد با شرکت‌های پخش مویرگی سراسری جهت پوشش تمام سوپرمارکت‌های کشور.</li>
+              <li><strong>هدف استراتژیک:</strong> کسب جایگاه اولین نام تجاری معتبر (First-Mover) دقیقاً مانند الگوی نودل و ماندگاری بلندمدت.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="pro-box" style="margin-top: 24px; padding: 22px;">
+          <h4 style="color: var(--primary); font-size: 1.05rem; margin-bottom: 10px;">🔄 منطق چرخه لوپ در توسعه محصول:</h4>
+          <p style="font-size: 0.92rem; line-height: 1.9; text-align: justify;">
+            فرآیند تجاری‌سازی یک حلقه بسته است: با ورود اولیه به بازار، نرخ تکرار خرید (Repeat Purchase) سنجیده می‌شود. در صورتی که بالای ۶۰٪ خریداران دوباره محصول را تهیه کنند، تنوع طعم و سایزهای اقتصادی اضافه شده و سود حاصل به فاز دوم و توسعه محصول بعدی در این فهرست اختصاص می‌یابد تا این چرخه ارزش‌آفرین تکرار گردد.
+          </p>
+        </div>
+
+        <div class="highlight-card" style="margin-top: 20px;">
+          🎯 <strong>نتیجه‌گیری:</strong> بازار ایران نیازمند محصولاتی است که فاصله بین کالای قاچاق لوکس و تولیدات قدیمی را پر کنند. این محصولات با قیمت‌گذاری اقتصادی و کیفیت بومی می‌توانند به سرعت به کالای ثابت سبد خانوارها تبدیل شوند.
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- نوار پیمایش پایین صفحه: فقط هنگامی که کاربر به انتهای متن می‌رسد آشکار می‌شود -->
+  <footer class="footer-nav" id="footerNav">
+    <div class="footer-inner">
+      <button class="btn btn-prev" id="prevBtn" onclick="navigateSlide(-1)">
+        <span>← قبلی</span>
+      </button>
+
+      <div class="footer-status-pill" id="footerStatusText">
+        بخش ۱ از ۶
+      </div>
+
+      <button class="btn btn-next" id="nextBtn" onclick="navigateSlide(1)">
+        <span>گام بعدی →</span>
+      </button>
+    </div>
+  </footer>
+
+  <script>
+    const totalSlides = 6;
+    let currentSlide = 0;
+
+    const slideTitles = [
+      "بخش ۱: بررسی مثال موفق نودل و شاخص‌ها",
+      "بخش ۲: غذاهای فرآوری‌شده فوری",
+      "بخش ۳: مراقبت شخصی و درموکازمتیک",
+      "بخش ۴: ملزومات شست‌وشو و آشپزخانه",
+      "بخش ۵: ماتریس مقایسه اقتصادی",
+      "بخش ۶: نقشه راه عملیاتی و چرخه ارزیابی"
+    ];
+
+    // فال‌بک هوشمند تصویر: اگر آدرس اول لود نشد، آدرس دوم را امتحان می‌کند
+    function handleImageFallback(imgElement, alternativeUrl) {
+      if (alternativeUrl && imgElement.src !== alternativeUrl) {
+        imgElement.src = alternativeUrl;
+      } else {
+        // در صورت عدم دسترسی کامل اینترنت، عکس شفاف می‌شود تا تصویرسازی دقیق محصول در پس‌زمینه دیده شود
+        imgElement.style.opacity = '0';
+      }
+    }
+
+    // پیمایش خودکار نوار تب‌های هدر به همراه محصول فعال
+    function autoScrollActiveTab(activeBtn) {
+      if (!activeBtn) return;
+      const navContainer = document.getElementById('navTabsContainer');
+      if (navContainer) {
+        // محاسبه موقعیت تب برای مرکز کردن آن در نوار افقی
+        const containerWidth = navContainer.clientWidth;
+        const btnLeft = activeBtn.offsetLeft;
+        const btnWidth = activeBtn.offsetWidth;
+        const targetScroll = btnLeft - (containerWidth / 2) + (btnWidth / 2);
+        
+        navContainer.scrollTo({
+          left: targetScroll,
+          behavior: 'smooth'
+        });
+      }
+    }
+
+    // منطق تشخیص رسیدن دقیق به انتهای صفحه جهت نمایش نوار ناوبری
+    function checkScrollAtBottom() {
+      const footer = document.getElementById('footerNav');
+      const windowHeight = window.innerHeight;
+      const scrollY = window.scrollY || window.pageYOffset;
+      const totalDocHeight = document.documentElement.scrollHeight;
+
+      // هنگامی که کاربر به انتهای صفحه برسد
+      const reachedBottom = (windowHeight + scrollY) >= (totalDocHeight - 90);
+      const isShortSlide = totalDocHeight <= windowHeight + 40;
+
+      if (reachedBottom || isShortSlide) {
+        footer.classList.add('visible');
+      } else {
+        footer.classList.remove('visible');
+      }
+    }
+
+    function renderSlideView() {
+      // به‌روزرسانی اسلاید فعال
+      document.querySelectorAll('.slide').forEach((slide, idx) => {
+        slide.classList.toggle('active', idx === currentSlide);
+      });
+
+      // به‌روزرسانی تب‌های هدر
+      const tabButtons = document.querySelectorAll('.nav-tab-btn');
+      let activeTabBtn = null;
+      tabButtons.forEach((btn, idx) => {
+        const isActive = (idx === currentSlide);
+        btn.classList.toggle('active', isActive);
+        if (isActive) activeTabBtn = btn;
+      });
+
+      // حرکت خودکار نوار هدر به تب فعال
+      autoScrollActiveTab(activeTabBtn);
+
+      // نوار پیشرفت
+      const progress = ((currentSlide + 1) / totalSlides) * 100;
+      document.getElementById('progressFill').style.width = progress + '%';
+      document.getElementById('footerStatusText').textContent = slideTitles[currentSlide];
+
+      // دکمه‌های قبلی / بعدی / لوپ
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+
+      if (currentSlide === 0) {
+        prevBtn.style.visibility = 'hidden';
+      } else {
+        prevBtn.style.visibility = 'visible';
+      }
+
+      if (currentSlide === totalSlides - 1) {
+        nextBtn.innerHTML = '<span>تکرار چرخه از ابتدا (لوپ) ↺</span>';
+        nextBtn.className = 'btn btn-loop';
+      } else {
+        nextBtn.innerHTML = '<span>گام بعدی →</span>';
+        nextBtn.className = 'btn btn-next';
+      }
+
+      // اسکرول فوری به بالای صفحه اسلاید جدید و مخفی کردن موقت نوار دکمه‌ها
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      document.getElementById('footerNav').classList.remove('visible');
+
+      // بررسی وضعیت اسکرول
+      setTimeout(checkScrollAtBottom, 120);
+    }
+
+    function navigateSlide(direction) {
+      if (currentSlide === totalSlides - 1 && direction === 1) {
+        currentSlide = 0; // لوپ کامل به گام اول
+      } else {
+        currentSlide += direction;
+        if (currentSlide < 0) currentSlide = 0;
+        if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
+      }
+      renderSlideView();
+    }
+
+    function jumpToSlide(index) {
+      currentSlide = index;
+      renderSlideView();
+    }
+
+    window.addEventListener('scroll', checkScrollAtBottom, { passive: true });
+    window.addEventListener('resize', () => {
+      checkScrollAtBottom();
+      const activeBtn = document.querySelector('.nav-tab-btn.active');
+      autoScrollActiveTab(activeBtn);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') navigateSlide(1);
+      if (e.key === 'ArrowRight') navigateSlide(-1);
+    });
+
+    renderSlideView();
+  </script>
+</body>
+</html>
